@@ -1,0 +1,35 @@
+{
+  "name": "hls-tool",
+  "version": "1.0.0",
+  "description": "Local cross-platform HLS transcoder that mirrors AWS MediaConvert output using FFmpeg.",
+  "type": "module",
+  "bin": {
+    "hls-tool": "dist/cli.js",
+    "hls-worker": "dist/worker.js"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js",
+    "worker": "node dist/worker.js",
+    "dev": "tsx src/cli.ts",
+    "test:stack:up": "docker compose -f test/docker-compose.yml up -d --wait",
+    "test:stack:down": "docker compose -f test/docker-compose.yml down -v",
+    "test:flow": "npm run build && tsx test/run-local-flow.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.622.0",
+    "@aws-sdk/client-sqs": "^3.622.0",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/pg": "^8.11.6",
+    "pg": "^8.12.0",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  }
+}

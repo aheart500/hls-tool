@@ -1,0 +1,34 @@
+# Local test stack: LocalStack provides S3, Postgres holds VideoFile rows.
+# Used by `test/run-local-flow.ts` to exercise the full
+# trigger -> worker -> completion pipeline without AWS.
+services:
+  localstack:
+    image: localstack/localstack:3
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      DEFAULT_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: hls
+      POSTGRES_PASSWORD: hls
+      POSTGRES_DB: hls
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hls -d hls"]
+      interval: 3s
+      timeout: 3s
+      retries: 20

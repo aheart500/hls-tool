@@ -1,0 +1,22 @@
+{
+  "name": "hls-trigger-lambda",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.mjs --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\"",
+    "package": "npm run build && cd dist && zip -r ../trigger-lambda.zip index.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-batch": "^3.622.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.140",
+    "@types/node": "^20.12.7",
+    "@types/pg": "^8.11.6",
+    "esbuild": "^0.23.0",
+    "typescript": "^5.4.5"
+  }
+}
