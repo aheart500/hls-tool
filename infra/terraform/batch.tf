@@ -90,6 +90,10 @@ resource "aws_batch_job_definition" "this" {
       on_status_reason = "Host EC2*"
     }
     evaluate_on_exit {
+      action           = "RETRY"
+      on_status_reason = "Your Spot Task was interrupted*"
+    }
+    evaluate_on_exit {
       action    = "EXIT"
       on_reason = "*"
     }
