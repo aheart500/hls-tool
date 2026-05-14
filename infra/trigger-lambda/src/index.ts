@@ -99,6 +99,10 @@ export async function handler(
           attempts: 2,
           evaluateOnExit: [
             { onStatusReason: "Host EC2*", action: "RETRY" },
+            {
+              onStatusReason: "Your Spot Task was interrupted*",
+              action: "RETRY",
+            },
             { onReason: "*", action: "EXIT" },
           ],
         },
